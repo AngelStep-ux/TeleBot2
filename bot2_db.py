@@ -74,7 +74,18 @@ def get_words_from_db(user_id):
 def insert_default_words():
     conn = connect_db()
     cursor = conn.cursor()
-    default_words = [("hello", "привет"), ("world", "мир"), ("cat", "кот"), ("dog", "собака")]
+    default_words = [
+        ("hello", "привет"),
+        ("world", "мир"),
+        ("cat", "кот"),
+        ("dog", "собака"),
+        ("book", "книга"),
+        ("computer", "компьютер"),
+        ("sky", "небо"),
+        ("sun", "солнце"),
+        ("moon", "луна"),
+        ("tree", "дерево")
+    ]
     for eng, rus in default_words:
         cursor.execute("INSERT INTO default_words (english_word, russian_word) VALUES (%s, %s) ON CONFLICT (english_word) DO NOTHING", (eng, rus))
     conn.commit()

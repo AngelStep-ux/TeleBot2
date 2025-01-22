@@ -9,7 +9,8 @@ bot = telebot.TeleBot(TOKEN)
 
 user_answers = {}
 
-default_words = [("hello", "привет"), ("world", "мир"), ("cat", "кот"), ("dog", "собака")]
+default_words = [("hello", "привет"), ("world", "мир"), ("cat", "кот"), ("dog", "собака"), ("book", "книга"),
+    ("computer", "компьютер"), ("sky", "небо"), ("sun", "солнце"), ("moon", "луна"), ("tree", "дерево")]
 
 
 def get_random_word(user_id):
@@ -137,7 +138,7 @@ def save_translation(message, english_word):
     bot2_db.add_word_to_db(user_id, english_word, translation)
     bot.send_message(message.chat.id,
                      f"Слово '{english_word}' с переводом '{translation}' добавлено в Ваш словарик!")
-    send_random_word(message)  # Вернёмся к игре после добавления слова
+    send_random_word(message)
 
 
 @bot.message_handler(func=lambda message: message.text == 'Удалить слово')
@@ -156,18 +157,16 @@ def confirm_delete_word(message):
     user_id = message.from_user.id
     english_word = message.text
 
-    # Проверяем, является ли введенное слово одной из кнопок функционала
     if message.text == 'Дальше':
-        next_word(message)  # Передаем сообщение для корректной работы
+        next_word(message)
         return
     elif message.text == 'Добавить слово':
-        add_word(message)  # Передаем сообщение для корректной работы
+        add_word(message)
         return
     elif message.text == 'Удалить слово':
-        delete_word(message)  # Передаем сообщение для корректной работы
+        delete_word(message)
         return
 
-    # Проверяем, является ли введенное слово действительным словом в словаре
     user_words = bot2_db.get_words_from_db(user_id)
     if english_word not in [word[0] for word in user_words]:
         bot.send_message(message.chat.id, f"Слово '{english_word}' не найдено в Вашем словаре.")
@@ -187,9 +186,9 @@ def check_answer(message):
         bot.send_message(message.chat.id, 'Правильно! 🎉')
         example = get_usage_example(target_word)
         bot.send_message(message.chat.id, f"<b>Пример</b> 📖:<i>{example}</i>", parse_mode="HTML")
-        send_random_word(message)  # Отправляем следующее слово
+        send_random_word(message)
     elif message.text in ['Добавить слово', 'Удалить слово']:
-        return  # Позволяем пользователю продолжить взаимодействие
+        return  
     else:
         bot.send_message(message.chat.id, 'Ошибка ❌ Попробуйте ещё раз.')
 
