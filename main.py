@@ -76,7 +76,8 @@ def start_bot(message):
                                            "Удачи! 😊",
                                            parse_mode="HTML",
                                         )
-        for eng, rus in bot2_db.insert_default_words():
+        default_words = bot2_db.insert_default_words()
+        for eng, rus in default_words:
             bot2_db.add_word_to_db(user_id, eng, rus)
 
     user_words = bot2_db.get_words_from_db(user_id)

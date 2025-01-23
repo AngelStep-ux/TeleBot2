@@ -91,6 +91,7 @@ def insert_default_words():
     conn.commit()
     cursor.close()
     conn.close()
+    return default_words
 
 def remove_word_from_db(user_id, english_word):
     conn = connect_db()
