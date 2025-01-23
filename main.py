@@ -4,13 +4,10 @@ import requests
 from telebot import types
 import bot2_db
 
-TOKEN = '784499'
+TOKEN = '78449'
 bot = telebot.TeleBot(TOKEN)
 
 user_answers = {}
-
-default_words = [("hello", "привет"), ("world", "мир"), ("cat", "кот"), ("dog", "собака"), ("book", "книга"),
-    ("computer", "компьютер"), ("sky", "небо"), ("sun", "солнце"), ("moon", "луна"), ("tree", "дерево")]
 
 
 def get_random_word(user_id):
@@ -79,7 +76,7 @@ def start_bot(message):
                                            "Удачи! 😊",
                                            parse_mode="HTML",
                                         )
-        for eng, rus in default_words:
+        for eng, rus in bot2_db.insert_default_words():
             bot2_db.add_word_to_db(user_id, eng, rus)
 
     user_words = bot2_db.get_words_from_db(user_id)
